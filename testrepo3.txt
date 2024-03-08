@@ -1,23 +1,42 @@
-<script runat="Server" language="Javascript">
-  Platform.Load("core","1.1.1");
-  var api = new Script.Util.WSProxy(),
-      columns = ["Name", "CustomerKey", "IsSendable"],
-      filter = {
-        Property: "Name",
-        SimpleOperator: "equals",
-        Value: "mark_morta_long_DataExt"
-      },
-      opts =  {
-        BatchSize: 300
-      };
-  
-  var result = [];
-      moreData = true,
-      reqID = req = null;
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+</head>
+<body>
+<script runat='server'>
 
-  var req = api.retrieve("DataExtension", columns,filter);
-  Write(Stringify(req.Results));
-  Write("vvv");	
-  
-  
+    Platform.Load('core', '1.1.1');
+    
+    try {
+		
+        var referer = Platform.Request.ReferrerURL;
+        var regex = /^(https:\/\/(.*\.)?((myawesomeform)\.com))($|\/)/g;
+        var match = referer.match(regex);
+        var origin = (match.length > 0) ? match[1] : null;
+    
+        if (origin != null) {
+    
+            HTTPHeader.SetValue('Access-Control-Allow-Methods', 'POST');
+            HTTPHeader.SetValue('Access-Control-Allow-Origin', origin);
+            Platform.Response.SetResponseHeader('Strict-Transport-Security', 'max-age=200');
+            Platform.Response.SetResponseHeader('X-XSS-Protection', '1; mode=block');
+            Platform.Response.SetResponseHeader('X-Frame-Options', 'Deny');
+            Platform.Response.SetResponseHeader('X-Content-Type-Options', 'nosniff');
+            Platform.Response.SetResponseHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+            Platform.Response.SetResponseHeader('Content-Security-Policy', "default-src 'self'");
+    
+        } else {
+            throw "Wrong origin";
+        }
+		
+		/// DO SOMETHING
+		
+    } catch(error) {
+    
+        Write(Stringify({ status: "Error", message: error }));
+    
+    } 		
 </script>
+</body>
+</html>	
