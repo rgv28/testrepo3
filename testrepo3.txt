@@ -1,0 +1,22 @@
+<script runat="Server" language="Javascript">
+  Platform.Load("core","1.1.1");
+  var api = new Script.Util.WSProxy(),
+      columns = ["Name", "CustomerKey", "IsSendable"],
+      filter = {
+        Property: "Name",
+        SimpleOperator: "equals",
+        Value: "mark_morta_long_DataExt"
+      },
+      opts =  {
+        BatchSize: 300
+      };
+  
+  var result = [];
+      moreData = true,
+      reqID = req = null;
+
+  var req = api.retrieve("DataExtension", columns,filter);
+  Write(Stringify(req.Results));
+  
+  
+</script>
