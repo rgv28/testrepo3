@@ -17,6 +17,6 @@
 
   var req = api.retrieve("DataExtension", columns,filter);
   Write(Stringify(req.Results));
-  
+  Write("v2");
   
 </script>
